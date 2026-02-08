@@ -62,11 +62,17 @@ These logs can be exported from the Serial Monitor into CSV for basic analysis.
 ## Repository Structure
 
 2A-Trust/
+
 ├── sender/
+
 │ └── sender.ino
+
 ├── receiver/
+
 │ └── receiver.ino
+
 ├── results/
+
 │ └── *.csv
 └── README.md
 
