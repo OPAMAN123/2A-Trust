@@ -20,3 +20,10 @@ Each run consisted of 300 packets.
 - Sender MAC not in receiver allowlist
 - Expected: All packets rejected (UNKNOWN_MAC)
 
+# Results
+
+CSV exports are in this format:
+- seq: sequence number
+- payload: data field
+- status: accepted / rejected
+- reason if rejected: wrong_secret / replay
