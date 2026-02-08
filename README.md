@@ -54,7 +54,7 @@ At the receiver:
 3. Open `sender/sender.ino`
 4. Update line 10:
 ```cpp
-   uint8_t receiverMAC[] = {0xAA, 0xBB, 0xCC, 0xDD, 0xEE, 0xFF};  // Your receiver MAC
+   #define SHARED_SECRET 0xBEEF
 ```
 5. Set shared secret (must match on both devices):
 ```cpp
