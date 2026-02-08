@@ -51,3 +51,16 @@ Track:
 
 ## Repository Structure
 
+
+
+2A-Trust/
+├── sender/
+│ └── sender.ino
+├── receiver/
+│ └── receiver.ino
+├── results/
+│ └── *.csv
+└── README.md
+
+
+## Next Extensions (Op
