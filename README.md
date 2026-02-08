@@ -105,6 +105,8 @@ These logs can be exported from the Serial Monitor into CSV for basic analysis.
 
 │ └── sender.ino
 
+|____ License
+
 ├── receiver/
 
 │ └── receiver.ino
