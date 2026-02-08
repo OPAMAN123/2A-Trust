@@ -1,42 +1,53 @@
-# 2A-Trust — Lightweight Authentication for ESP-NOW
+# 2A-Trust — Beginner-Friendly ESP-NOW Authentication Extension
 
-## Overview
-2A-Trust is a lightweight MAC-layer authentication and replay-protection extension
-for offline ESP-NOW communication systems.
+## Project Overview
 
-The project focuses on trust and correctness rather than encryption.
+2A-Trust adds simple **lightweight authentication and replay protection** to an existing ESP-NOW communication system using ESP32 boards with Arduino IDE.
+
+This project focuses on **practical trust guarantees**, not full encryption.
+
+## Design Goals
+
+- Only accept packets from a trusted sender
+- Reject replayed packets
+- Keep implementation beginner-friendly (Arduino IDE)
+- Demonstrate engineering trade-offs
 
 ## Threat Model
-- Attacker can inject and replay packets
+
+- Attacker can inject packets or replay old packets
 - Attacker cannot extract firmware secrets
-- Goal: accept only authentic and fresh packets
+- Goal: reject invalid packets with minimal overhead
 
-## Design
-- HMAC-SHA256 (truncated to 64 bits)
-- 32-bit sequence numbers
-- Sliding-window replay protection (64 packets)
-- Explicit accept / reject logic
+## Mechanisms
 
-## Experiments
-Four experimental runs were conducted:
-- Control (legitimate traffic)
-- Wrong-key attack
-- Replay attack
-- Unknown sender attack
+1. **Shared Secret / Token** in every packet  
+2. **Monotonic Sequence Number** for replay detection
 
-Each run consisted of 300 packets.
+## Included Code
 
-## Results
-- Control: 300 / 300 accepted
-- Wrong key: 300 / 300 rejected (BAD_AUTH)
-- Replay: 300 / 300 rejected (REPLAY)
-- Unknown sender: 300 / 300 rejected (UNKNOWN_MAC)
+- `sender/sender.ino`: sender with shared secret + sequence number  
+- `receiver/receiver.ino`: receiver rejecting invalid packets
+
+## How to Use
+
+1. Flash `sender.ino` to one ESP32
+2. Flash `receiver.ino` to another
+3. Open Serial Monitor on receiver
+4. Observe authenticated traffic vs rejected packets
 
 ## Limitations
-- No confidentiality (payload not encrypted)
-- Pre-shared key only
-- Single-sender model
 
-## Status
-Feature-frozen at v2.0
+- No cryptographically strong authentication (no AES/HMAC)
+- Shared secret in firmware can be extracted
+- Only single sender-to-receiver tested
+
+## Results
+
+Track:
+- Accepted vs Rejected packet counts
+- Rejection reasons (wrong secret / replay)
+- Simple performance metrics exported to `/results`
+
+## Repository Structure
 
