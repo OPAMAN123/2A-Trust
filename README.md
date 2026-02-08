@@ -121,3 +121,6 @@ By building and evaluating this project, you learn:
 - Wireless protocol message validation
 - Replay attack defenses
 - Embedded engineering trade-offs
+
+
+Djaman670@gmail.com
