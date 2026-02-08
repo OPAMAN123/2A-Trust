@@ -34,14 +34,34 @@ At the receiver:
 - Shared secret is checked first.
 - Sequence number is checked next for freshness.
 
-## How to Use
+## Reproducibility Setup
 
-1. Flash the `sender/sender.ino` sketch onto one ESP32.
-2. Flash the `receiver/receiver.ino` sketch onto another ESP32.
-3. Open the Serial Monitor on the receiver.
-4. Observe accepted and rejected packets.
+### Hardware
+- 2× ESP32-WROOM-32 development boards
+- USB cables for programming
 
-Rejected packets are logged with reasons (e.g., wrong secret, replay).
+### Software Requirements
+- Arduino IDE 1.8.19 or later
+- ESP32 Arduino Core v2.0.5
+- No external libraries required (ESP-NOW is built-in)
+
+### Configuration Steps
+1. Open `receiver/receiver.ino`
+2. Note the receiver's MAC address printed on board or find via:
+```cpp
+   WiFi.macAddress()
+```
+3. Open `sender/sender.ino`
+4. Update line 10:
+```cpp
+   uint8_t receiverMAC[] = {0xAA, 0xBB, 0xCC, 0xDD, 0xEE, 0xFF};  // Your receiver MAC
+```
+5. Set shared secret (must match on both devices):
+```cpp
+   const uint16_t SHARED_SECRET = 0xABCD;  // Lines 8 (sender) and 9 (receiver)
+```
+6. Flash receiver first, then sender
+7. Open Serial Monitor at **115200 baud**
 
 ## Limitations
 
