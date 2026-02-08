@@ -59,6 +59,24 @@ The receiver logs:
 
 These logs can be exported from the Serial Monitor into CSV for basic analysis.
 
+## Security Analysis
+
+### Shared Secret Strength
+- 16-bit secret = 65,536 possible values
+- Vulnerable to brute force in <1 minute with automated scanning
+- **Not suitable for production**, intended for educational demonstration only
+
+### Sequence Number Limitations
+- 16-bit counter = 65,536 messages maximum
+- Counter overflow requires manual reset
+- No persistence across device reboots
+- Sequential messages can be replayed in-order after power cycle
+
+### Appropriate Use Cases
+- Classroom demonstration of protocol validation concepts
+- Low-stakes sensor networks in controlled environments
+- Educational exploration of replay attack prevention
+
 ## Repository Structure
 
 2A-Trust/
