@@ -1,70 +1,79 @@
-# 2A-Trust — Beginner-Friendly ESP-NOW Authentication Extension
+# 2A-Trust — Lightweight Authentication & Replay Protection for ESP-NOW
 
-## Project Overview
+## Overview
 
-2A-Trust adds simple **lightweight authentication and replay protection** to an existing ESP-NOW communication system using ESP32 boards with Arduino IDE.
+2A-Trust is a beginner-friendly extension to the ESP-NOW communication protocol on ESP32 devices. It adds **simple lightweight authentication and replay protection** using a shared secret and monotonic sequence numbers.
 
-This project focuses on **practical trust guarantees**, not full encryption.
-
-## Design Goals
-
-- Only accept packets from a trusted sender
-- Reject replayed packets
-- Keep implementation beginner-friendly (Arduino IDE)
-- Demonstrate engineering trade-offs
+This project prioritizes **practical trust guarantees** without heavy cryptography, making it suitable for undergraduate work in communication and embedded systems.
 
 ## Threat Model
 
-- Attacker can inject packets or replay old packets
-- Attacker cannot extract firmware secrets
-- Goal: reject invalid packets with minimal overhead
+Assumptions:
+- The wireless channel is open and untrusted.
+- An attacker can inject or replay packets.
+- Firmware secrets are not extracted by the attacker.
 
-## Mechanisms
+Goal:
+> The receiver should only accept messages from a trusted sender that contain valid fields.
 
-1. **Shared Secret / Token** in every packet  
-2. **Monotonic Sequence Number** for replay detection
+## Mechanisms Implemented
 
-## Included Code
+1. **Shared Secret** – A fixed token included in every packet.
+2. **Sequence Number** – A monotonic field to defend against replayed packets.
 
-- `sender/sender.ino`: sender with shared secret + sequence number  
-- `receiver/receiver.ino`: receiver rejecting invalid packets
+These mechanisms are easy to explain and implement using Arduino for ESP32.
+
+## Packet Format
+
+Each packet consists of:
+- `secret`: 16-bit shared token
+- `seq`: 16-bit sequence number
+- `payload`: application data
+
+At the receiver:
+- Shared secret is checked first.
+- Sequence number is checked next for freshness.
 
 ## How to Use
 
-1. Flash `sender.ino` to one ESP32
-2. Flash `receiver.ino` to another
-3. Open Serial Monitor on receiver
-4. Observe authenticated traffic vs rejected packets
+1. Flash the `sender/sender.ino` sketch onto one ESP32.
+2. Flash the `receiver/receiver.ino` sketch onto another ESP32.
+3. Open the Serial Monitor on the receiver.
+4. Observe accepted and rejected packets.
+
+Rejected packets are logged with reasons (e.g., wrong secret, replay).
 
 ## Limitations
 
-- No cryptographically strong authentication (no AES/HMAC)
-- Shared secret in firmware can be extracted
-- Only single sender-to-receiver tested
+- No cryptographically strong authentication.
+- Payloads are not encrypted.
+- Shared secret is static and visible in firmware.
+- Only one sender–receiver relationship is shown.
 
-## Results
+## Evaluation
 
-Track:
-- Accepted vs Rejected packet counts
-- Rejection reasons (wrong secret / replay)
-- Simple performance metrics exported to `/results`
+The receiver logs:
+- Number of accepted packets
+- Number of rejected packets
+- Reason for rejection
+
+These logs can be exported from the Serial Monitor into CSV for basic analysis.
 
 ## Repository Structure
 
-
-
 2A-Trust/
-
 ├── sender/
-
 │ └── sender.ino
-
 ├── receiver/
-
 │ └── receiver.ino
-
 ├── results/
-
 │ └── *.csv
-
 └── README.md
+
+
+## Educational Value
+
+By building and evaluating this project, you learn:
+- Wireless protocol message validation
+- Replay attack defenses
+- Embedded engineering trade-offs
