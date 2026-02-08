@@ -54,11 +54,11 @@ At the receiver:
 3. Open `sender/sender.ino`
 4. Update line 10:
 ```cpp
-   #define SHARED_SECRET 0xBEEF
+   uint8_t receiverMAC[] = {0xAA, 0xBB, 0xCC, 0xDD, 0xEE, 0xFF};  // Your receiver MAC
 ```
 5. Set shared secret (must match on both devices):
 ```cpp
-   const uint16_t SHARED_SECRET = 0xABCD;  // Lines 8 (sender) and 9 (receiver)
+   #define SHARED_SECRET 0xBEEF
 ```
 6. Flash receiver first, then sender
 7. Open Serial Monitor at **115200 baud**
